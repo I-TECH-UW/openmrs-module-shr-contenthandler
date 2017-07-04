@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/jembi/openmrs-module-shr-contenthandler.png?branch=master)](https://travis-ci.org/jembi/openmrs-module-shr-contenthandler)
+[![Build Status](https://travis-ci.org/SEDISH/openmrs-module-shr-cdahandler.svg?branch=master)](https://travis-ci.org/SEDISH/openmrs-module-shr-cdahandler)
 
 OpenHIE Shared Health Record: Content Handler Module
 ====================================================
