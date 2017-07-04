@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/SEDISH/openmrs-module-shr-cdahandler.svg?branch=master)](https://travis-ci.org/SEDISH/openmrs-module-shr-cdahandler)
+[![Build Status](https://travis-ci.org/SEDISH/openmrs-module-shr-contenthandler.svg?branch=master)](https://travis-ci.org/SEDISH/openmrs-module-shr-contenthandler)
 
 OpenHIE Shared Health Record: Content Handler Module
 ====================================================
