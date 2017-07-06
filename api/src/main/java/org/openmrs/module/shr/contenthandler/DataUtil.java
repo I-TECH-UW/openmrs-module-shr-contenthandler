@@ -35,12 +35,9 @@ public class DataUtil {
 		return Base64.decodeBase64(content);
 	}
 	
-	public static byte[] fetchPayloadFromURL(String url) throws MalformedURLException, IOException {
-		InputStream in = new URL(url).openStream();
-		try {
+	public static byte[] fetchPayloadFromURL(String url) throws IOException {
+		try (InputStream in = new URL(url).openStream()){
 			return IOUtils.toByteArray(in);
-		} finally {
-			IOUtils.closeQuietly(in);
 		}
 	}
 	
