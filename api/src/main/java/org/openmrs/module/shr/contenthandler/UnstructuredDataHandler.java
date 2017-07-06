@@ -34,6 +34,7 @@ import org.openmrs.module.shr.contenthandler.api.CodedValue;
 import org.openmrs.module.shr.contenthandler.api.Content;
 import org.openmrs.module.shr.contenthandler.api.ContentHandler;
 import org.openmrs.obs.ComplexData;
+import org.openmrs.obs.ComplexObsHandler;
 import org.openmrs.util.OpenmrsConstants;
 
 /**
@@ -170,7 +171,7 @@ public class UnstructuredDataHandler implements ContentHandler {
 		
 		for (Obs obs : obsList) {
 			if (obs.getAccessionNumber() != null && obs.getAccessionNumber().equals(contentId) && obs.isComplex() && isConceptAnUnstructuredDataType(obs.getConcept())) {
-				Obs complexObs = os.getComplexObs(obs.getObsId(), OpenmrsConstants.TEXT_VIEW);
+				Obs complexObs = os.getComplexObs(obs.getObsId(), ComplexObsHandler.TEXT_VIEW);
 				Object data = complexObs.getComplexData()!=null ? complexObs.getComplexData().getData() : null;
 				
 				if (data==null || !(data instanceof Content)) {
