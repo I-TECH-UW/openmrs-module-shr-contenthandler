@@ -61,18 +61,14 @@ public class UnstructuredDataHandler implements ContentHandler {
 	/**
 	 * Create a new encounter object with a complex obs for storing the specified content. 
 	 */
-	private Encounter createEncounter(Patient patient, Map<EncounterRole, Set<Provider>> providersByRole, EncounterType encounterType, Content content, Encounter encounter) {
-		Encounter enc = new Encounter();
+	private Encounter createEncounter(Patient patient, Map<EncounterRole, Set<Provider>> providersByRole, EncounterType encounterType, Content content, Encounter enc) {
 		
 		enc.setEncounterType(encounterType);
 		Obs obs = createUnstructuredDataObs(content);
 		obs.setPerson(patient);
 		obs.setEncounter(enc);
 		enc.addObs(obs);
-		enc.setEncounterDatetime(encounter.getEncounterDatetime());
-		enc.setLocation(encounter.getLocation());
 		enc.setPatient(patient);
-		enc.setForm(encounter.getForm());
 		
 		// Add all providers to encounter
 		for (EncounterRole role : providersByRole.keySet()) {
