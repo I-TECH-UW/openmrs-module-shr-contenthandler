@@ -26,12 +26,7 @@ import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.openmrs.Encounter;
-import org.openmrs.EncounterRole;
-import org.openmrs.EncounterType;
-import org.openmrs.Obs;
-import org.openmrs.Patient;
-import org.openmrs.Provider;
+import org.openmrs.*;
 import org.openmrs.api.APIException;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.shr.contenthandler.api.CodedValue;
@@ -145,13 +140,17 @@ public class UnstructuredDataHandlerTest extends BaseModuleContextSensitiveTest 
 		Provider provider = Context.getProviderService().getProvider(1);
 		EncounterRole role = Context.getEncounterService().getEncounterRole(1);
 		EncounterType type = Context.getEncounterService().getEncounterType(typeId);
+		Location unknownLocation = Context.getLocationService().getLocation(1);
 		
 		Map<EncounterRole, Set<Provider>> providersByRole = new HashMap<EncounterRole, Set<Provider>>();
 		Set<Provider> providers = new HashSet<Provider>();
 		providers.add(provider);
 		providersByRole.put(role, providers);
 		
-		Encounter res = handler.saveContent(patient, providersByRole, type, content, null);
+		Encounter res = new Encounter();
+		res.setLocation(unknownLocation);
+		res.setEncounterDatetime(new Date());
+		res = handler.saveContent(patient, providersByRole, type, content, res);
 		
 		return res;
 	}
