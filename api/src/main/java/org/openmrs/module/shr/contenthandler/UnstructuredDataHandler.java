@@ -47,22 +47,21 @@ public class UnstructuredDataHandler implements ContentHandler {
 	protected static final String UNSTRUCTURED_DATA_HANDLER_GLOBAL_PROP = "shr.contenthandler.unstructureddatahandler.key";
 	
 	/**
-	 * @see ContentHandler#saveContent(String, Patient, Provider, EncounterRole, EncounterType, Content)
-	 * @should create a new encounter object using the current time
+	 * @should update the encounter object
 	 * @should contain a complex obs containing the content
 	 */
 	@Override
-	public Encounter saveContent(Patient patient, Map<EncounterRole, Set<Provider>> providersByRole, EncounterType encounterType, Content content, Encounter encounter) {
-		Encounter enc = createEncounter(patient, providersByRole, encounterType, content, encounter);
-		Context.getEncounterService().saveEncounter(enc);
-		return enc;
+	public Encounter saveContent(Patient patient, Map<EncounterRole, Set<Provider>> providersByRole,
+								 EncounterType encounterType, Content content, Encounter encounter) {
+		return updateEncounter(patient, providersByRole, encounterType, content, encounter);
 	}
 	
 	/**
-	 * Create a new encounter object with a complex obs for storing the specified content. 
+	 * Update the encounter object with a complex obs for storing the specified content.
 	 */
-	private Encounter createEncounter(Patient patient, Map<EncounterRole, Set<Provider>> providersByRole, EncounterType encounterType, Content content, Encounter enc) {
-		
+	private Encounter updateEncounter(Patient patient, Map<EncounterRole, Set<Provider>> providersByRole,
+									  EncounterType encounterType, Content content, Encounter enc) {
+
 		enc.setEncounterType(encounterType);
 		Obs obs = createUnstructuredDataObs(content);
 		obs.setPerson(patient);
@@ -78,7 +77,7 @@ public class UnstructuredDataHandler implements ContentHandler {
 			}
 		}
 		
-		return enc;
+		return Context.getEncounterService().saveEncounter(enc);
 	}
 	
 	private Obs createUnstructuredDataObs(Content content) {
@@ -163,13 +162,13 @@ public class UnstructuredDataHandler implements ContentHandler {
 	@Override
 	public Content fetchContent(String contentId) {
 		ObsService os = Context.getObsService();
-		// TODO update this to search by accession number, this can be done from OpenMRS 1.12
-		List<Obs> obsList = os.getObservations(null, null, null, null, null, null, null, null, null, null, null, false);
+		List<Obs> obsList = os.getObservations(null, null, null, null, null, null,
+				null, null, null, null, null, false, contentId);
 		
 		for (Obs obs : obsList) {
-			if (obs.getAccessionNumber() != null && obs.getAccessionNumber().equals(contentId) && obs.isComplex() && isConceptAnUnstructuredDataType(obs.getConcept())) {
+			if (obs.isComplex() && isConceptAnUnstructuredDataType(obs.getConcept())) {
 				Obs complexObs = os.getComplexObs(obs.getObsId(), OpenmrsConstants.TEXT_VIEW);
-				Object data = complexObs.getComplexData()!=null ? complexObs.getComplexData().getData() : null;
+				Object data = complexObs.getComplexData() != null ? complexObs.getComplexData().getData() : null;
 				
 				if (data==null || !(data instanceof Content)) {
 					log.warn("Unprocessable content found in unstructured data obs (obsId = " + obs.getId() + ")");
