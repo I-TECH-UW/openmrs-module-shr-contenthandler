@@ -55,7 +55,12 @@ public class UnstructuredDataHandler implements ContentHandler {
 	@Override
 	public Encounter saveContent(Patient patient, Map<EncounterRole, Set<Provider>> providersByRole, EncounterType encounterType, Content content) {
 		Encounter enc = createEncounter(patient, providersByRole, encounterType, content);
-		Context.getEncounterService().saveEncounter(enc);
+		//Context.getEncounterService().saveEncounter(enc);
+
+		//testing saveObs
+		Obs obs = createUnstructuredDataObs(content);
+		Context.getObsService().saveObs(obs,"");
+
 		return enc;
 	}
 	
