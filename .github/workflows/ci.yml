@@ -54,7 +54,11 @@ jobs:
 
       - name: Build with Maven
         run: mvn --batch-mode install
-
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: |
+          echo "$GITHUB_CONTEXT"
       - name: Publish package
         run: mvn -P github-packages -DskipTests -B deploy
         env:
