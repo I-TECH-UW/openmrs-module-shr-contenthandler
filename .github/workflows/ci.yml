@@ -2,9 +2,9 @@ name: Build with Maven
 
 on:
   push:
-    branches: [ main ]
+    branches: [ v1 ]
   pull_request:
-    branches: [ main ]
+    branches: [ v1 ]
   release:
     types: [ published ]
   workflow_dispatch:
